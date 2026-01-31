@@ -38,7 +38,7 @@ class Job_seeker_app(QMainWindow):
         #appearance of window
 
         self.setWindowTitle('Job Seeker')
-        self.setWindowIcon('/images/programmist.jpg')
+        self.setWindowIcon(QIcon('images/programist.png'))
 
     def _set_layouts(self):
         pass
