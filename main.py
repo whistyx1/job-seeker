@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QApplication,
                               QPushButton, QLabel, QFrame, QTabWidget, QLineEdit,
                               QCheckBox, QVBoxLayout, QHBoxLayout, QScrollArea)
+from PyQt5.QtGui import QIcon
 import sys
 
 
@@ -33,7 +34,11 @@ class Job_seeker_app(QMainWindow):
         self.job_list_area = QScrollArea()
 
     def _initUI(self):
+
+        #appearance of window
+
         self.setWindowTitle('Job Seeker')
+        self.setWindowIcon('/images/programmist.jpg')
 
     def _set_layouts(self):
         pass
