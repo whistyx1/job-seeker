@@ -11,6 +11,7 @@ class Job_seeker_app(QMainWindow):
         self._create_widgets()
         self._set_layouts()
         self._set_tabs()
+        self._set_name_to_widgets()
         self._initUI()
 
         
@@ -84,6 +85,10 @@ class Job_seeker_app(QMainWindow):
         save_list_page_layout = QVBoxLayout()
         save_list_page_layout.addWidget(self.job_list_area)
         self.save_list_page.setLayout(save_list_page_layout)
+    
+    def _set_name_to_widgets(self):
+        self.add_filter_button.setObjectName('add_filter_button')
+        self.search_job_button.setObjectName('search_job_button')
 
 
 if __name__ == "__main__":
