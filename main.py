@@ -1,8 +1,10 @@
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QApplication,
                               QPushButton, QLabel, QFrame, QTabWidget, QLineEdit,
                               QCheckBox, QVBoxLayout, QHBoxLayout, QScrollArea)
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import QIcon, QCursor, QPixmap
+from PyQt5.QtCore import Qt, QSize
 import sys
+from gui.main_page_styles import style_add_filter_button
 
 
 class Job_seeker_app(QMainWindow):
@@ -13,6 +15,7 @@ class Job_seeker_app(QMainWindow):
         self._set_tabs()
         self._set_name_to_widgets()
         self._initUI()
+        self._apply_styles()
 
         
     def _create_widgets(self):
@@ -89,6 +92,16 @@ class Job_seeker_app(QMainWindow):
     def _set_name_to_widgets(self):
         self.add_filter_button.setObjectName('add_filter_button')
         self.search_job_button.setObjectName('search_job_button')
+
+    def _apply_styles(self):
+
+        #add_filter_button
+
+        self.add_filter_button.setStyleSheet(style_add_filter_button())
+        self.add_filter_button.setCursor(Qt.PointingHandCursor)
+
+        #search_job_button
+        self.search_job_button.setCursor(Qt.PointingHandCursor)
 
 
 if __name__ == "__main__":
