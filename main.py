@@ -9,8 +9,9 @@ class Job_seeker_app(QMainWindow):
     def __init__(self):
         super().__init__()
         self._create_widgets()
-        self._initUI()
         self._set_layouts()
+        self._set_tabs()
+        self._initUI()
 
         
     def _create_widgets(self):
@@ -22,7 +23,6 @@ class Job_seeker_app(QMainWindow):
         self.main_page = QWidget()#главній єкра с поиском и тд
         self.search_bar = QLineEdit()
         self.add_filter_button = QPushButton()
-        self.delete_filter_button = QPushButton()
         self.filters_area = QScrollArea()
         self.search_job_button = QPushButton()
         self.work_ua_box = QCheckBox()
@@ -33,6 +33,10 @@ class Job_seeker_app(QMainWindow):
         self.save_list_page = QWidget()#страница со списком сохраненіїх раьбот
         self.job_list_area = QScrollArea()
 
+    def _set_tabs(self):
+        self.tabs.addTab(self.main_page, 'Main/Seeker')
+        self.tabs.addTab(self.save_list_page, 'Saved Jobs List')
+
     def _initUI(self):
 
         #appearance of window
@@ -40,9 +44,47 @@ class Job_seeker_app(QMainWindow):
         self.setWindowTitle('Job Seeker')
         self.setWindowIcon(QIcon('images/programist.png'))
 
+        #add text to widgets
+        self.search_bar.setPlaceholderText('Type filters here:')
+
     def _set_layouts(self):
-        pass
         
+        #main page layout
+
+        main_layout = QHBoxLayout()
+
+        #left side/founded jobs
+
+        left_side = QWidget()
+        founded_job_lists_layout = QVBoxLayout()
+        founded_job_lists_layout.addWidget(self.founded_jobs_area)
+        left_side.setLayout(founded_job_lists_layout)
+
+        #right side
+
+        right_side = QWidget()
+        search_job_layout = QVBoxLayout()
+        search_job_layout.addWidget(self.search_bar)
+        search_job_layout.addWidget(self.add_filter_button)
+        search_job_layout.addWidget(self.filters_area)
+        search_job_layout.addWidget(self.search_job_button)
+        search_job_layout.addWidget(self.work_ua_box)
+        search_job_layout.addWidget(self.robota_ua_box)
+        right_side.setLayout(search_job_layout)
+
+        main_layout.addWidget(left_side)
+        main_layout.addWidget(right_side)
+
+        #add layouts to main page
+
+        self.main_page.setLayout(main_layout)
+
+        #Jobs saved list page
+
+        save_list_page_layout = QVBoxLayout()
+        save_list_page_layout.addWidget(self.job_list_area)
+        self.save_list_page.setLayout(save_list_page_layout)
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
