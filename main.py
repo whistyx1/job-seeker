@@ -5,7 +5,8 @@ from PyQt5.QtGui import QIcon, QCursor, QPixmap
 from PyQt5.QtCore import Qt, QSize
 import sys
 from gui.main_page_styles import (style_add_filter_button, style_search_job_button,
-                                   style_searchbar,style_site_label, style_main_page)
+                                   style_searchbar,style_site_label, style_main_page,
+                                     style_checkbox, style_sqroll_area)
 
 
 class Job_seeker_app(QMainWindow):
@@ -55,12 +56,12 @@ class Job_seeker_app(QMainWindow):
         self.search_bar.setPlaceholderText('Type filters here:')
         self.add_filter_button.setText('Add a Filter')
         self.search_job_button.setText('Find a Job')
-        self.site_picker_label.setText('Pick a site to search:')
+        self.site_picker_label.setText('Pick a website to search:')
 
         #setup checkboxes
 
         self.work_ua_box.setText('Work.ua')
-
+        self.robota_ua_box.setText('Robota.ua')
 
     def _set_layouts(self):
         
@@ -123,9 +124,26 @@ class Job_seeker_app(QMainWindow):
         #searchbar
 
         self.search_bar.setStyleSheet(style_searchbar())
+        self.search_bar.setCursor(Qt.IBeamCursor)
 
         #label
         self.site_picker_label.setStyleSheet(style_site_label())
+
+        #checkboxes
+
+        self.work_ua_box.setStyleSheet(style_checkbox())
+        self.robota_ua_box.setStyleSheet(style_checkbox())
+
+        self.work_ua_box.setCursor(Qt.PointingHandCursor)
+        self.robota_ua_box.setCursor(Qt.PointingHandCursor)
+
+        #sqrollaareas
+
+        self.filters_area.setStyleSheet(style_sqroll_area())
+        self.founded_jobs_area.setStyleSheet(style_sqroll_area())
+        self.job_list_area.setStyleSheet(style_sqroll_area())
+
+        
 
 
 if __name__ == "__main__":
