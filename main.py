@@ -4,7 +4,8 @@ from PyQt5.QtWidgets import (QMainWindow, QWidget, QApplication,
 from PyQt5.QtGui import QIcon, QCursor, QPixmap
 from PyQt5.QtCore import Qt, QSize
 import sys
-from gui.main_page_styles import style_add_filter_button, style_search_job_button, style_searchbar
+from gui.main_page_styles import (style_add_filter_button, style_search_job_button,
+                                   style_searchbar,style_site_label, style_main_page)
 
 
 class Job_seeker_app(QMainWindow):
@@ -29,6 +30,7 @@ class Job_seeker_app(QMainWindow):
         self.add_filter_button = QPushButton()
         self.filters_area = QScrollArea()
         self.search_job_button = QPushButton()
+        self.site_picker_label = QLabel()
         self.work_ua_box = QCheckBox()
         self.robota_ua_box = QCheckBox()
         self.founded_jobs_area = QScrollArea()
@@ -53,6 +55,12 @@ class Job_seeker_app(QMainWindow):
         self.search_bar.setPlaceholderText('Type filters here:')
         self.add_filter_button.setText('Add a Filter')
         self.search_job_button.setText('Find a Job')
+        self.site_picker_label.setText('Pick a site to search:')
+
+        #setup checkboxes
+
+        self.work_ua_box.setText('Work.ua')
+
 
     def _set_layouts(self):
         
@@ -74,9 +82,10 @@ class Job_seeker_app(QMainWindow):
         search_job_layout.addWidget(self.search_bar)
         search_job_layout.addWidget(self.add_filter_button)
         search_job_layout.addWidget(self.filters_area)
-        search_job_layout.addWidget(self.search_job_button)
+        search_job_layout.addWidget(self.site_picker_label)
         search_job_layout.addWidget(self.work_ua_box)
         search_job_layout.addWidget(self.robota_ua_box)
+        search_job_layout.addWidget(self.search_job_button)
         right_side.setLayout(search_job_layout)
 
         main_layout.addWidget(left_side)
@@ -98,6 +107,9 @@ class Job_seeker_app(QMainWindow):
 
     def _apply_styles(self):
 
+        #main page
+        self.tabs.setStyleSheet(style_main_page())
+
         #add_filter_button
 
         self.add_filter_button.setStyleSheet(style_add_filter_button())
@@ -111,6 +123,9 @@ class Job_seeker_app(QMainWindow):
         #searchbar
 
         self.search_bar.setStyleSheet(style_searchbar())
+
+        #label
+        self.site_picker_label.setStyleSheet(style_site_label())
 
 
 if __name__ == "__main__":
