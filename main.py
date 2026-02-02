@@ -63,6 +63,11 @@ class Job_seeker_app(QMainWindow):
         self.work_ua_box.setText('Work.ua')
         self.robota_ua_box.setText('Robota.ua')
 
+        #set icons to checkboxes
+
+        self.work_ua_box.setIcon(QIcon('images/work_ua_logo.png'))
+        self.robota_ua_box.setIcon(QIcon('images/robota_ua_logo.png'))
+
     def _set_layouts(self):
         
         #main page layout
