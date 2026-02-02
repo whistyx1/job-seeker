@@ -4,7 +4,7 @@ from PyQt5.QtWidgets import (QMainWindow, QWidget, QApplication,
 from PyQt5.QtGui import QIcon, QCursor, QPixmap
 from PyQt5.QtCore import Qt, QSize
 import sys
-from gui.main_page_styles import style_add_filter_button
+from gui.main_page_styles import style_add_filter_button, style_search_job_button, style_searchbar
 
 
 class Job_seeker_app(QMainWindow):
@@ -47,9 +47,12 @@ class Job_seeker_app(QMainWindow):
 
         self.setWindowTitle('Job Seeker')
         self.setWindowIcon(QIcon('images/programist.png'))
+        self.setMinimumSize(1000, 600)
 
         #add text to widgets
         self.search_bar.setPlaceholderText('Type filters here:')
+        self.add_filter_button.setText('Add a Filter')
+        self.search_job_button.setText('Find a Job')
 
     def _set_layouts(self):
         
@@ -101,7 +104,13 @@ class Job_seeker_app(QMainWindow):
         self.add_filter_button.setCursor(Qt.PointingHandCursor)
 
         #search_job_button
+
+        self.search_job_button.setStyleSheet(style_search_job_button())
         self.search_job_button.setCursor(Qt.PointingHandCursor)
+
+        #searchbar
+
+        self.search_bar.setStyleSheet(style_searchbar())
 
 
 if __name__ == "__main__":
