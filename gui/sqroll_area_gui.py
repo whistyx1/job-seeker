@@ -8,7 +8,7 @@ def setup_sqroll_area():
     layout = QVBoxLayout()
 
     empty_label = QLabel()
-    empty_label.setPixmap(QPixmap('/images/empty_cloud.jpg').scaled(200, 200, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+    empty_label.setPixmap(QPixmap('images/empty_cloud.png').scaled(200, 200, Qt.KeepAspectRatio, Qt.SmoothTransformation))
     empty_label.setAlignment(Qt.AlignCenter)
 
     empty_text = QLabel()
@@ -17,9 +17,13 @@ def setup_sqroll_area():
     empty_text.setStyleSheet("""
         QLabel{
             font-size: 20px;
-            color: #8ff1f2;
+            color: black;
             font-family: Calibri;
             font-style: italic;
+        }QSqrollArea{
+            background-color: white;
+            border: 2px solid hsl(252, 87%, 9%);
+            border-radius: 8px;
         }
         """)
     
