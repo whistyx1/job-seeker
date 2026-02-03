@@ -7,6 +7,7 @@ import sys
 from gui.main_page_styles import (style_add_filter_button, style_search_job_button,
                                    style_searchbar,style_site_label, style_main_page,
                                      style_checkbox, style_sqroll_area)
+from gui.sqroll_area_gui import setup_sqroll_area
 
 
 class Job_seeker_app(QMainWindow):
