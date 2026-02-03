@@ -1,0 +1,7 @@
+1) gui design ->
+2) add filter func ->
+3) display filters ->
+4) parsing ->
+5) create job cards ->
+6) display cards ->
+7) set saved jobs area.
