@@ -1,9 +1,13 @@
 def get_filters(widget):
-    filters_list = []
 
-    text = widget.text()
+    text = widget.text().strip()
 
-    if text:
-        filters_list.append(text)
-
-    return filters_list
+    if not text:
+        return []
+    
+    if ',' in text:
+        filters = text.split(',')
+    else:
+        filters = text.split()
+    
+    return [f.strip() for f in filters if f.strip()]
