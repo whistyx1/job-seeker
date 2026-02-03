@@ -8,6 +8,7 @@ from gui.main_page_styles import (style_add_filter_button, style_search_job_butt
                                    style_searchbar,style_site_label, style_main_page,
                                      style_checkbox, style_sqroll_area)
 from gui.sqroll_area_gui import setup_sqroll_area
+from filters.add_filters import add_filter
 
 
 class Job_seeker_app(QMainWindow):
@@ -30,7 +31,16 @@ class Job_seeker_app(QMainWindow):
         self.main_page = QWidget()#главній єкра с поиском и тд
         self.search_bar = QLineEdit()
         self.add_filter_button = QPushButton()
+        self.add_filter_button.clicked.connect(self.enable_add_filter_func)
         self.filters_area = QScrollArea()
+        self.filters_area.setWidgetResizable(True)
+
+        self.filter_container = QWidget()
+        self.filter_layout = QVBoxLayout()
+        self.filter_layout.setAlignment(Qt.AlignTop)
+        self.filter_container.setLayout(self.filter_layout)
+        self.filters_area.setWidget(self.filter_container)
+
         self.search_job_button = QPushButton()
         self.site_picker_label = QLabel()
         self.work_ua_box = QCheckBox()
@@ -164,6 +174,9 @@ class Job_seeker_app(QMainWindow):
         self.founded_jobs_area.setStyleSheet(style_sqroll_area())
         self.job_list_area.setStyleSheet(style_sqroll_area())
 
+    def enable_add_filter_func(self):
+        add_filter(self.search_bar, self.filter_layout)
+    
         
 
 
