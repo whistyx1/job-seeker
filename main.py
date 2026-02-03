@@ -67,7 +67,7 @@ class Job_seeker_app(QMainWindow):
         self.setMinimumSize(1000, 600)
 
         #add text to widgets
-        self.search_bar.setPlaceholderText('Type filters here:')
+        self.search_bar.setPlaceholderText('Type filters here(e. g. docker, python, c):')
         self.add_filter_button.setText('Add a Filter')
         self.search_job_button.setText('Find a Job')
         self.site_picker_label.setText('Pick a website to search:')
