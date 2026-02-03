@@ -35,7 +35,20 @@ class Job_seeker_app(QMainWindow):
         self.site_picker_label = QLabel()
         self.work_ua_box = QCheckBox()
         self.robota_ua_box = QCheckBox()
+
         self.founded_jobs_area = QScrollArea()
+        self.founded_jobs_area.setWidgetResizable(True)
+
+        #setup label for empty list
+        self.jobs_container = QWidget()
+        self.jobs_layout = QVBoxLayout()
+        self.jobs_container.setLayout(self.jobs_layout)
+        self.jobs_layout.setAlignment(Qt.AlignTop)
+        self.empty_state = setup_sqroll_area()
+        self.jobs_layout.addWidget(self.empty_state)
+
+        self.founded_jobs_area.setWidget(self.jobs_container)
+
 
         #saved jobs list widgets
         self.save_list_page = QWidget()#страница со списком сохраненіїх раьбот
@@ -70,7 +83,6 @@ class Job_seeker_app(QMainWindow):
         self.work_ua_box.setIconSize(QSize(30, 60))
         self.robota_ua_box.setIcon(QIcon('images/robota_ua_logo.png'))
         self.robota_ua_box.setIconSize(QSize(30, 60))
-
 
     def _set_layouts(self):
         
