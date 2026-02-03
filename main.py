@@ -66,7 +66,10 @@ class Job_seeker_app(QMainWindow):
         #set icons to checkboxes
 
         self.work_ua_box.setIcon(QIcon('images/work_ua_logo.png'))
+        self.work_ua_box.setIconSize(QSize(30, 60))
         self.robota_ua_box.setIcon(QIcon('images/robota_ua_logo.png'))
+        self.robota_ua_box.setIconSize(QSize(30, 60))
+
 
     def _set_layouts(self):
         
