@@ -15,15 +15,21 @@ def setup_sqroll_area():
     empty_text.setText('Its empty now\nAdd filters and search a Job!')
     empty_text.setAlignment(Qt.AlignCenter)
     empty_text.setStyleSheet("""
+        QWidget{
+            background-color: hsl(204, 73%, 56%);
+            border-radius:10px;
+            
+        }
         QLabel{
             font-size: 20px;
             color: black;
             font-family: Calibri;
             font-style: italic;
+            background-color: hsl(204, 73%, 56%);
         }QSqrollArea{
-            background-color: white;
+            background-color: hsl(204, 73%, 56%);
             border: 2px solid hsl(252, 87%, 9%);
-            border-radius: 8px;
+            border-radius: 10px;
         }
         """)
     
