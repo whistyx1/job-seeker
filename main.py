@@ -9,6 +9,7 @@ from gui.main_page_styles import (style_add_filter_button, style_search_job_butt
                                      style_checkbox, style_sqroll_area)
 from gui.sqroll_area_gui import setup_sqroll_area
 from filters.add_filters import add_filter
+from filters.get_filters import get_filters
 
 
 class Job_seeker_app(QMainWindow):
@@ -38,6 +39,10 @@ class Job_seeker_app(QMainWindow):
         self.filter_container = QWidget()
         self.filter_layout = QVBoxLayout()
         self.filter_layout.setAlignment(Qt.AlignTop)
+
+        self.empty_state_filters = setup_sqroll_area()
+        self.filter_layout.addWidget(self.empty_state_filters)
+
         self.filter_container.setLayout(self.filter_layout)
         self.filters_area.setWidget(self.filter_container)
 
@@ -48,17 +53,6 @@ class Job_seeker_app(QMainWindow):
 
         self.founded_jobs_area = QScrollArea()
         self.founded_jobs_area.setWidgetResizable(True)
-
-        #setup label for empty list
-        self.jobs_container = QWidget()
-        self.jobs_layout = QVBoxLayout()
-        self.jobs_container.setLayout(self.jobs_layout)
-        self.jobs_layout.setAlignment(Qt.AlignTop)
-        self.empty_state = setup_sqroll_area()
-        self.jobs_layout.addWidget(self.empty_state)
-
-        self.founded_jobs_area.setWidget(self.jobs_container)
-
 
         #saved jobs list widgets
         self.save_list_page = QWidget()#страница со списком сохраненіїх раьбот
@@ -175,7 +169,7 @@ class Job_seeker_app(QMainWindow):
         self.job_list_area.setStyleSheet(style_sqroll_area())
 
     def enable_add_filter_func(self):
-        add_filter(self.search_bar, self.filter_layout)
+        add_filter(self.search_bar, self.filter_layout, self.empty_state_filters)
     
         
 
