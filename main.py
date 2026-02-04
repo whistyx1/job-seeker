@@ -37,6 +37,11 @@ class Job_seeker_app(QMainWindow):
         self.filters_area.setWidgetResizable(True)
 
         self.filter_container = QWidget()
+        self.filter_container.setStyleSheet("""
+            QWidget{
+                background-color: transparent;
+            }""")
+
         self.filter_layout = QVBoxLayout()
         self.filter_layout.setAlignment(Qt.AlignTop)
 
