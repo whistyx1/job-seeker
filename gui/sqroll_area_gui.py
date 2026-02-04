@@ -14,11 +14,9 @@ def setup_sqroll_area():
     empty_text = QLabel()
     empty_text.setText('Its empty now\nAdd filters and search a Job!')
     empty_text.setAlignment(Qt.AlignCenter)
-    empty_text.setStyleSheet("""
+    container.setStyleSheet("""
         QWidget{
             background-color: hsl(204, 73%, 56%);
-            border-radius:10px;
-            
         }
         QLabel{
             font-size: 20px;
