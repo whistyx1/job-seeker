@@ -64,7 +64,7 @@ def style_site_label():
         font-size:25px;
         font-family: Calibri;
         font-weight: bold;
-        color: hsl(203, 100%, 94%)
+        color: hsl(203, 100%, 94%);
 
     }
     """
@@ -130,5 +130,16 @@ def style_sqroll_area():
         background-color: hsl(204, 73%, 56%);
         border: 1px solid hsl(252, 87%, 9%);
         border-radius: 5px;
+    }
+    """
+
+#region label
+
+def style_region_label():
+    return """QLabel{
+        font-size: 25px;
+        font-family: Calibri;
+        color: hsl(203, 100%, 94%);
+        font-weight: bold;
     }
     """
