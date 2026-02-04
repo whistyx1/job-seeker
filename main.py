@@ -1,12 +1,12 @@
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QApplication,
                               QPushButton, QLabel, QFrame, QTabWidget, QLineEdit,
-                              QCheckBox, QVBoxLayout, QHBoxLayout, QScrollArea)
+                              QCheckBox, QVBoxLayout, QHBoxLayout, QScrollArea, QComboBox)
 from PyQt5.QtGui import QIcon, QCursor, QPixmap
 from PyQt5.QtCore import Qt, QSize
 import sys
 from gui.main_page_styles import (style_add_filter_button, style_search_job_button,
                                    style_searchbar,style_site_label, style_main_page,
-                                     style_checkbox, style_sqroll_area)
+                                     style_checkbox, style_sqroll_area, style_region_label)
 from gui.sqroll_area_gui import setup_sqroll_area
 from filters.add_filters import add_filter
 from filters.get_filters import get_filters
@@ -56,6 +56,9 @@ class Job_seeker_app(QMainWindow):
         self.work_ua_box = QCheckBox()
         self.robota_ua_box = QCheckBox()
 
+        self.region_label = QLabel()
+        self.region_combo = QComboBox()
+
         self.founded_jobs_area = QScrollArea()
         self.founded_jobs_area.setWidgetResizable(True)
 
@@ -93,6 +96,17 @@ class Job_seeker_app(QMainWindow):
         self.robota_ua_box.setIcon(QIcon('images/robota_ua_logo.png'))
         self.robota_ua_box.setIconSize(QSize(30, 60))
 
+        #edit region label + box
+        self.region_label.setText('Choose a region:')
+
+        self.region_combo.addItem('Вся Україна', 'all')
+        self.region_combo.addItem('Харків', 'kh')
+        self.region_combo.addItem('Київ', 'kiyv')
+        self.region_combo.addItem('Дніпро', 'dn')
+        self.region_combo.addItem('Дистанційно', 'remote')
+        self.region_combo.addItem('Інше', 'other')
+
+
     def _set_layouts(self):
         
         #main page layout
@@ -116,6 +130,8 @@ class Job_seeker_app(QMainWindow):
         search_job_layout.addWidget(self.site_picker_label)
         search_job_layout.addWidget(self.work_ua_box)
         search_job_layout.addWidget(self.robota_ua_box)
+        search_job_layout.addWidget(self.region_label)
+        search_job_layout.addWidget(self.region_combo)
         search_job_layout.addWidget(self.search_job_button)
         right_side.setLayout(search_job_layout)
 
@@ -172,6 +188,10 @@ class Job_seeker_app(QMainWindow):
         self.filters_area.setStyleSheet(style_sqroll_area())
         self.founded_jobs_area.setStyleSheet(style_sqroll_area())
         self.job_list_area.setStyleSheet(style_sqroll_area())
+
+        #region label
+
+        self.region_label.setStyleSheet(style_region_label())
 
     def enable_add_filter_func(self):
         add_filter(self.search_bar, self.filter_layout, self.empty_state_filters)
