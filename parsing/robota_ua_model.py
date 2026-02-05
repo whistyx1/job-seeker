@@ -7,3 +7,4 @@ class Job:
     url: str
     data_added: str
     city: str
+    salary:  str = ' '
