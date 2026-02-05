@@ -6,3 +6,4 @@ class Job:
     company: str
     url: str
     data_added: str
+    city: str
