@@ -99,12 +99,12 @@ class Job_seeker_app(QMainWindow):
         #edit region label + box
         self.region_label.setText('Choose a region:')
 
-        self.region_combo.addItem('Вся Україна', 'all')
-        self.region_combo.addItem('Харків', 'kh')
-        self.region_combo.addItem('Київ', 'kiyv')
-        self.region_combo.addItem('Дніпро', 'dn')
+        self.region_combo.addItem('Вся Україна', 'ukraine')
+        self.region_combo.addItem('Харків', 'kharkiv')
+        self.region_combo.addItem('Київ', 'kyiv')
+        self.region_combo.addItem('Дніпро', 'dnipro')
         self.region_combo.addItem('Дистанційно', 'remote')
-        self.region_combo.addItem('Інше', 'other')
+        self.region_combo.addItem('Інше', 'other_countries')
 
 
     def _set_layouts(self):
