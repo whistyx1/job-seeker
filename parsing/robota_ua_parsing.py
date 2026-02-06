@@ -57,11 +57,11 @@ class RobotaUaParser(QThread):
 
                     #url
 
-                    url = job.find('a', class_='card')
-                    if not url:
+                    url_tag = job.find('a', class_='card')
+                    if not url_tag:
                         continue
-                    job_url = url.get('href', '')
-                    if job_url and not url.startswith('http'):
+                    job_url = url_tag.get('href', '')
+                    if job_url and not job_url.startswith('http'):
                         job_url = 'https://robota.ua' + job_url
                     
                     #data
@@ -83,10 +83,10 @@ class RobotaUaParser(QThread):
                         else:
                             city = text
 
-                    if job_url not in seen_links:
+                    if job_url in seen_links:
                         continue
 
-                    seen_links.add(url)
+                    seen_links.add(job_url)
 
                     job_obj = Job(
                         title=title,
