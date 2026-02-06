@@ -11,6 +11,7 @@ from gui.sqroll_area_gui import setup_sqroll_area
 from filters.add_filters import add_filter
 from filters.get_filters import get_filters
 from parsing.robota_ua_parsing import RobotaUaParser
+from jobs.create_job_card import create_job_card
 
 
 class Job_seeker_app(QMainWindow):
@@ -53,6 +54,7 @@ class Job_seeker_app(QMainWindow):
         self.filters_area.setWidget(self.filter_container)
 
         self.search_job_button = QPushButton()
+        self.search_job_button.clicked.connect(self._parse_robota)
         self.site_picker_label = QLabel()
         self.work_ua_box = QCheckBox()
         self.robota_ua_box = QCheckBox()
@@ -62,6 +64,19 @@ class Job_seeker_app(QMainWindow):
 
         self.founded_jobs_area = QScrollArea()
         self.founded_jobs_area.setWidgetResizable(True)
+
+        self.jobs_container = QWidget()
+        self.jobs_container.setStyleSheet("""
+            QWidget{
+                background-color: transparent;
+            }""")
+        self.jobs_layout = QVBoxLayout()
+        self.jobs_layout.setAlignment(Qt.AlignTop)
+        self.empty_state_jobs = setup_sqroll_area()
+        self.jobs_layout.addWidget(self.empty_state_jobs)
+
+        self.jobs_container.setLayout(self.jobs_layout)
+        self.founded_jobs_area.setWidget(self.jobs_container)
 
         #saved jobs list widgets
         self.save_list_page = QWidget()#страница со списком сохраненіїх раьбот
@@ -196,6 +211,25 @@ class Job_seeker_app(QMainWindow):
     def enable_add_filter_func(self):
         add_filter(self.search_bar, self.filter_layout, self.empty_state_filters)
     
+    def display_jobs(self, jobs):
+        if hasattr(self, 'empty_state_jobs'):
+            self.empty_state_jobs.hide()
+        
+        for job in jobs:
+            card = create_job_card(job)
+            self.jobs_layout.addWidget(card)
+        
+        self.search_job_button.setText('Find a Job')
+        self.search_job_button.setEnabled(True)
+
+        QMessageBox.information(self, 'Done!', f'I have found {len(jobs)} jobs')
+
+    def show_error(self, message):
+        QMessageBox.critical(self, 'Error', 'Parsing error')
+
+        self.search_job_button.setText('Find a Job')
+        self.search_job_button.setEnabled(True)
+
     def _parse_robota(self):
         filters = get_filters(self.search_bar)
         if not filters:
@@ -204,7 +238,7 @@ class Job_seeker_app(QMainWindow):
 
         region = self.region_combo.currentData()
         self.parser = RobotaUaParser(filters = filters, region=region)
-        self.parser.jobs_found.connect(self.display_job_card)
+        self.parser.jobs_found.connect(self.display_jobs)
         self.parser.progress.connect(self.update_progress)
         self.parser.error.connect(self.show_error)
 
