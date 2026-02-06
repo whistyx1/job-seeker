@@ -119,7 +119,6 @@ class Job_seeker_app(QMainWindow):
         self.region_combo.addItem('Харків', 'kharkiv')
         self.region_combo.addItem('Київ', 'kyiv')
         self.region_combo.addItem('Дніпро', 'dnipro')
-        self.region_combo.addItem('Дистанційно', 'remote')
         self.region_combo.addItem('Інше', 'other_countries')
 
     def _set_layouts(self):
@@ -237,7 +236,7 @@ class Job_seeker_app(QMainWindow):
             return
 
         region = self.region_combo.currentData()
-        self.parser = RobotaUaParser(filters = filters, region=region)
+        self.parser = RobotaUaParser(filters, region=region)
         self.parser.jobs_found.connect(self.display_jobs)
         self.parser.progress.connect(self.update_progress)
         self.parser.error.connect(self.show_error)
