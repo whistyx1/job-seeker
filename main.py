@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QApplication,
                               QPushButton, QLabel, QFrame, QTabWidget, QLineEdit,
-                              QCheckBox, QVBoxLayout, QHBoxLayout, QScrollArea, QComboBox)
+                              QCheckBox, QVBoxLayout, QHBoxLayout, QScrollArea, QComboBox, QMessageBox)
 from PyQt5.QtGui import QIcon, QCursor, QPixmap
 from PyQt5.QtCore import Qt, QSize
 import sys
@@ -10,6 +10,7 @@ from gui.main_page_styles import (style_add_filter_button, style_search_job_butt
 from gui.sqroll_area_gui import setup_sqroll_area
 from filters.add_filters import add_filter
 from filters.get_filters import get_filters
+from parsing.robota_ua_parsing import RobotaUaParser
 
 
 class Job_seeker_app(QMainWindow):
@@ -106,7 +107,6 @@ class Job_seeker_app(QMainWindow):
         self.region_combo.addItem('Дистанційно', 'remote')
         self.region_combo.addItem('Інше', 'other_countries')
 
-
     def _set_layouts(self):
         
         #main page layout
@@ -196,7 +196,22 @@ class Job_seeker_app(QMainWindow):
     def enable_add_filter_func(self):
         add_filter(self.search_bar, self.filter_layout, self.empty_state_filters)
     
-        
+    def _parse_robota(self):
+        filters = get_filters(self.search_bar)
+        if not filters:
+            QMessageBox.warning(None, 'error', 'You must apply some filters\nBefore searching a Job')
+            return
+
+        region = self.region_combo.currentData()
+        self.parser = RobotaUaParser(filters = filters, region=region)
+        self.parser.jobs_found.connect(self.display_job_card)
+        self.parser.progress.connect(self.update_progress)
+        self.parser.error.connect(self.show_error)
+
+        self.search_job_button.setText('Searching...')
+        self.search_job_button.setEnabled(False)
+
+        self.parser.start()
 
 
 if __name__ == "__main__":
