@@ -31,8 +31,10 @@ class RobotaUaParser(QThread):
         for filter_word in self.filters:
             for page in range(1, self.max_pages + 1):
                 url=f'https://robota.ua/zapros/{filter_word}/{self.region}/params;page={page}'
+                print(f'Parsing: {url}')
                 try:
                     res = requests.get(url, timeout=10)
+                    print(res.text[:1000]) 
                     res.raise_for_status()
                 except requests.RequestException as e:
                     print(f"Error fetching {url}: {e}")
@@ -41,7 +43,9 @@ class RobotaUaParser(QThread):
                     continue
                 
                 soup = BeautifulSoup(res.text, 'lxml')
-                jobs = soup.find_all('div', class_='santa--mb-20')
+                jobs = soup.find_all('a', class_='santa--mb-20 ng-star-inserted')
+
+                print(f"Found {len(jobs)} jobs on page {page}")
 
                 for job in jobs:
                     #title
@@ -57,7 +61,7 @@ class RobotaUaParser(QThread):
 
                     #url
 
-                    url_tag = job.find('a', class_='card')
+                    url_tag = job.get('href', '')
                     if not url_tag:
                         continue
                     job_url = url_tag.get('href', '')
@@ -66,7 +70,9 @@ class RobotaUaParser(QThread):
                     
                     #data
 
-                    data_added = job.find('div', class_='santa-typo-secondary').get_text(strip=True)
+                    data_tag = job.find('h2', class_='santa-typo-secondary')
+                    data_added = data_tag.get_text(strip=True) if data_tag else ''
+
 
                     #city+salary
 
