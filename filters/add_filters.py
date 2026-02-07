@@ -4,7 +4,7 @@ from .delete_filters import delete_filter
 from PyQt5.QtWidgets import QMessageBox, QPushButton    
 from functools import partial
 
-def add_filter(searchbar, layout, empty_state_widget):
+def add_filter(searchbar, layout, empty_state_widget, active_filters_list):
     filters = get_filters(searchbar)
 
     if not filters:
@@ -13,13 +13,18 @@ def add_filter(searchbar, layout, empty_state_widget):
 
     if empty_state_widget:
         empty_state_widget.hide()
+    
+    for filter_text in filters:
+        if filter_text in active_filters_list:
+            continue
+
+        active_filters_list.append(filter_text)
 
     
-    for text in filters:
-        card = create_filters_card(text)
+        card = create_filters_card(filter_text)
         delete_button = card.findChild(QPushButton)
         if delete_button:
-            delete_button.clicked.connect(partial(delete_filter, card, layout, empty_state_widget))
+            delete_button.clicked.connect(partial(delete_filter, card, layout, empty_state_widget, active_filters_list, filter_text))
 
         layout.addWidget(card)
     
