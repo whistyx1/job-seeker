@@ -1,6 +1,5 @@
 from PyQt5.QtWidgets import (QLabel, QFrame, QVBoxLayout,
-                              QPushButton, QHBoxLayout,
-                             )
+                              QPushButton, QHBoxLayout)
 from PyQt5.QtCore import Qt
 import webbrowser
 
@@ -13,16 +12,18 @@ def create_job_card(job):
 
     main_layout = QVBoxLayout()
 
-    #layout for data and title
+    # Layout for date and title
     top_layout = QHBoxLayout()
 
     title = QLabel(job.title)
     title.setObjectName('job-title')
     title.setWordWrap(True)
     title.setStyleSheet("""
-        QLabel#job-title{
+        QLabel#job-title {
             font-size: 15px;
-            color: #36060e;           
+            color: #36060e; 
+            font-weight: bold; 
+            border: none;         
         }
     """)
     top_layout.addWidget(title)
@@ -30,47 +31,47 @@ def create_job_card(job):
     if job.data_added:
         date = QLabel(f'Added {job.data_added}')
         date.setObjectName("job-date-added")
-        date.setObjectName("""
-            QLabel#job-date-added{
-            font-size: 15px;
-            color: #36060e;
-            font-style: italic;
+        date.setStyleSheet("""
+            QLabel#job-date-added {
+                border: none; 
+                font-size: 12px;
+                color: #999;
+                font-style: italic;
             }
         """)
-        top_layout.addWidget(date)
+        top_layout.addWidget(date, alignment=Qt.AlignRight | Qt.AlignTop)
     
     main_layout.addLayout(top_layout)
 
-    #company + city
-
-    info = QLabel(f" {job.company}  {job.city}")
+    # Company + city
+    info = QLabel(f"🏢 {job.company} • 📍 {job.city}")
     info.setObjectName("job-info")
     info.setStyleSheet("""
         QLabel#job-info {
-            font-size: 15px;
-            color: #36060e;
+            font-size: 14px;
+            color: #5A5A5A;
             margin-top: 5px;
+            border: none; 
         }
     """)
     main_layout.addWidget(info)
 
-    #salary
-
+    # Salary
     if job.salary:
-        salary = QLabel(f"Salary: {job.salary}")
+        salary = QLabel(f"💰 {job.salary}")
         salary.setObjectName("job-salary")
         salary.setStyleSheet("""
             QLabel#job-salary {
-                font-size: 15px;
-                color: #36060e;
+                font-size: 14px;
+                color: #5FB8A3;
                 font-weight: bold;
                 margin-top: 5px;
+                border: none; 
             }
         """)
         main_layout.addWidget(salary)
 
-    #buttons
-
+    # Buttons
     buttons_layout = QHBoxLayout()
 
     open_button = QPushButton('Open')
@@ -84,17 +85,17 @@ def create_job_card(job):
             border-radius: 6px;
             padding: 8px 15px;
             font-weight: bold;
+            font-size: 14px;
         }
         QPushButton#open-button:hover {
             background-color: #7DD3C0;
         }
     """)
-    
     open_button.clicked.connect(lambda: open_url(job.url))
 
     save_button = QPushButton('Save')
     save_button.setObjectName("save-button")
-    save_button.setMaximumWidth(40)
+    save_button.setMinimumWidth(80)
     save_button.setCursor(Qt.PointingHandCursor)
     save_button.setStyleSheet("""
         QPushButton#save-button {
@@ -102,13 +103,15 @@ def create_job_card(job):
             color: white;
             border: none;
             border-radius: 6px;
-            padding: 8px;
-            font-size: 16px;
+            padding: 8px 15px;
+            font-size: 14px;
+            font-weight: bold;
         }
         QPushButton#save-button:hover {
             background-color: #FFD54F;
         }
     """)
+    
     buttons_layout.addWidget(open_button)
     buttons_layout.addWidget(save_button)
     buttons_layout.addStretch()
@@ -118,17 +121,20 @@ def create_job_card(job):
     card.setLayout(main_layout)
 
     card.setStyleSheet("""
-        QFrame#jobCard {
-            background-color: white;
+        QFrame#job-card {
+            background-color: #f7faff;
             border: 2px solid #5FB8A3;
             border-radius: 12px;
             padding: 15px;
             margin: 5px;
         }
-        QFrame#jobCard:hover {
+        QFrame#job-card:hover {
             border: 2px solid #7DD3C0;
             background-color: #F0F9F7;
         }
     """)
 
+    card.mousePressEvent = lambda event: open_url(job.url)
+    card.setCursor(Qt.PointingHandCursor)
+    
     return card
