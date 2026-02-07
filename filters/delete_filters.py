@@ -1,7 +1,10 @@
-def delete_filter(card, layout, empty_state_widget):
+def delete_filter(card, layout, empty_state_widget, active_filter_list, filter_text):
     layout.removeWidget(card)
     card.hide()
     card.deleteLater()
+
+    if filter_text in active_filter_list:
+        active_filter_list.remove(filter_text)
 
     has_cards = False
     for i in range(layout.count()):
