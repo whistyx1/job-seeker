@@ -11,12 +11,14 @@ from gui.sqroll_area_gui import setup_sqroll_area
 from filters.add_filters import add_filter
 from filters.get_filters import get_filters
 from parsing.robota_ua_parsing import RobotaUaParser
+from parsing.work_ua_parsing import WorkUaParser
 from jobs.create_job_card import create_job_card
 
 
 class Job_seeker_app(QMainWindow):
     def __init__(self):
         super().__init__()
+        self.active_filters = []
         self._create_widgets()
         self._set_layouts()
         self._set_tabs()
@@ -208,9 +210,15 @@ class Job_seeker_app(QMainWindow):
         self.region_label.setStyleSheet(style_region_label())
 
     def enable_add_filter_func(self):
-        add_filter(self.search_bar, self.filter_layout, self.empty_state_filters)
+        add_filter(self.search_bar, self.filter_layout, self.empty_state_filters, self.active_filters)
     
     def display_jobs(self, jobs):
+
+        for i in reversed(range(self.jobs_layout.count())):
+            widget = self.jobs_layout.itemAt(i).widget()
+            if widget and widget != self.empty_state_jobs:
+                widget.deleteLater()
+                
         if hasattr(self, 'empty_state_jobs'):
             self.empty_state_jobs.hide()
         
@@ -230,15 +238,15 @@ class Job_seeker_app(QMainWindow):
         self.search_job_button.setEnabled(True)
 
     def _parse_robota(self):
-        filters = get_filters(self.search_bar)
+        filters = self.active_filters
         if not filters:
             QMessageBox.warning(None, 'error', 'You must apply some filters\nBefore searching a Job')
             return
 
         region = self.region_combo.currentData()
-        self.parser = RobotaUaParser(filters, region=region)
+        self.parser = WorkUaParser(filters, region=region)
         self.parser.jobs_found.connect(self.display_jobs)
-        self.parser.progress.connect(self.update_progress)
+       #self.parser.progress.connect(self.update_progress)
         self.parser.error.connect(self.show_error)
 
         self.search_job_button.setText('Searching...')
