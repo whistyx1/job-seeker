@@ -56,7 +56,7 @@ class Job_seeker_app(QMainWindow):
         self.filters_area.setWidget(self.filter_container)
 
         self.search_job_button = QPushButton()
-        self.search_job_button.clicked.connect(self._parse_robota)
+        self.search_job_button.clicked.connect(self._parse_job)
         self.site_picker_label = QLabel()
         self.work_ua_box = QCheckBox()
         self.robota_ua_box = QCheckBox()
@@ -218,7 +218,7 @@ class Job_seeker_app(QMainWindow):
             widget = self.jobs_layout.itemAt(i).widget()
             if widget and widget != self.empty_state_jobs:
                 widget.deleteLater()
-                
+
         if hasattr(self, 'empty_state_jobs'):
             self.empty_state_jobs.hide()
         
@@ -237,22 +237,24 @@ class Job_seeker_app(QMainWindow):
         self.search_job_button.setText('Find a Job')
         self.search_job_button.setEnabled(True)
 
-    def _parse_robota(self):
+    def _parse_job(self):
         filters = self.active_filters
         if not filters:
             QMessageBox.warning(None, 'error', 'You must apply some filters\nBefore searching a Job')
             return
 
-        region = self.region_combo.currentData()
-        self.parser = WorkUaParser(filters, region=region)
-        self.parser.jobs_found.connect(self.display_jobs)
-       #self.parser.progress.connect(self.update_progress)
-        self.parser.error.connect(self.show_error)
+        if self.work_ua_box.isActiveWindow():
 
-        self.search_job_button.setText('Searching...')
-        self.search_job_button.setEnabled(False)
+            region = self.region_combo.currentData()
+            self.parser = WorkUaParser(filters, region=region)
+            self.parser.jobs_found.connect(self.display_jobs)
+        #self.parser.progress.connect(self.update_progress)
+            self.parser.error.connect(self.show_error)
 
-        self.parser.start()
+            self.search_job_button.setText('Searching...')
+            self.search_job_button.setEnabled(False)
+
+            self.parser.start()
 
 
 if __name__ == "__main__":
