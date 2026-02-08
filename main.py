@@ -13,12 +13,16 @@ from filters.get_filters import get_filters
 from parsing.robota_ua_parsing import RobotaUaParser
 from parsing.work_ua_parsing import WorkUaParser
 from jobs.create_job_card import create_job_card
+from jobs.save_card import save_job_card
+from jobs.delete_card import delete_card
+from jobs.display_saved_jobs import display_saved_jobs
 
 
 class Job_seeker_app(QMainWindow):
     def __init__(self):
         super().__init__()
         self.active_filters = []
+        self.saved_jobs = []
         self._create_widgets()
         self._set_layouts()
         self._set_tabs()
@@ -83,6 +87,15 @@ class Job_seeker_app(QMainWindow):
         #saved jobs list widgets
         self.save_list_page = QWidget()#страница со списком сохраненіїх раьбот
         self.job_list_area = QScrollArea()
+        self.job_list_area.setWidgetResizable(True)
+        
+        self.job_list_container = QWidget()
+        self.job_list_container.setStyleSheet('background-color: transparent;')
+        self.job_list_layout = QVBoxLayout()
+        self.job_list_layout.setAlignment(Qt.AlignTop)
+
+        self.job_list_container.setLayout(self.job_list_layout)
+        self.job_list_area.setWidget(self.job_list_container)
 
     def _set_tabs(self):
         self.tabs.addTab(self.main_page, 'Main/Seeker')
@@ -223,7 +236,7 @@ class Job_seeker_app(QMainWindow):
             self.empty_state_jobs.hide()
         
         for job in jobs:
-            card = create_job_card(job)
+            card = create_job_card(job, self.on_saved_clicked)
             self.jobs_layout.addWidget(card)
         
         self.search_job_button.setText('Find a Job')
@@ -243,18 +256,69 @@ class Job_seeker_app(QMainWindow):
             QMessageBox.warning(None, 'error', 'You must apply some filters\nBefore searching a Job')
             return
 
-        if self.work_ua_box.isActiveWindow():
+        
 
-            region = self.region_combo.currentData()
-            self.parser = WorkUaParser(filters, region=region)
-            self.parser.jobs_found.connect(self.display_jobs)
-        #self.parser.progress.connect(self.update_progress)
-            self.parser.error.connect(self.show_error)
+        work_ua_selected = self.work_ua_box.isChecked()
+        robota_ua_selected = self.robota_ua_box.isChecked()
 
-            self.search_job_button.setText('Searching...')
-            self.search_job_button.setEnabled(False)
+        if not work_ua_selected and not robota_ua_selected:
+            QMessageBox.warning(
+                self, 
+                'error', 
+                'Choose at least one website for searching'
+            )
+            return
 
-            self.parser.start()
+        region = self.region_combo.currentData()
+        self.parsers = []
+
+        if work_ua_selected:
+            
+            work_parser = WorkUaParser(
+                filters=filters,
+                region=region,
+                max_pages=10
+            )
+            work_parser.jobs_found.connect(self.display_jobs)
+            work_parser.error.connect(self.show_error)
+            
+            self.parsers.append(work_parser)
+        if robota_ua_selected:
+            QMessageBox.information(self, 'In development', 'Robota.ua is Temporarily unavailable\nMy sincere apologies')
+            return
+
+        self.search_job_button.setText('Searching...')
+        self.search_job_button.setEnabled(False)
+
+        for parser in self.parsers:
+            parser.start()  
+
+    def on_saved_clicked(self, job):
+        saving = save_job_card(job, self.saved_jobs)
+
+        if saving:
+            self.refresh_saved_jobs_page()
+            QMessageBox.information(
+                self, 
+                'Saved!', 
+                f'{job.title}" Added to Saved!'
+            )
+    
+    def on_delete_clicked(self, job):
+        deleting = delete_card(job, self.saved_jobs)
+
+        if deleting:
+            self.refresh_saved_jobs_page()
+            QMessageBox.information(
+                self, 
+                'Deleted', 
+                f'{job.title}" Was Deleted from Saved'
+            )
+    
+    def refresh_saved_jobs_page(self):
+        display_saved_jobs(self.saved_jobs, self.job_list_layout, self.on_delete_clicked)
+
+
 
 
 if __name__ == "__main__":
