@@ -16,19 +16,21 @@ from jobs.create_job_card import create_job_card
 from jobs.save_card import save_job_card
 from jobs.delete_card import delete_card
 from jobs.display_saved_jobs import display_saved_jobs
+from create_jobs_file import get_jobs_from_file,save_jobs_into_file
 
 
 class Job_seeker_app(QMainWindow):
     def __init__(self):
         super().__init__()
         self.active_filters = []
-        self.saved_jobs = []
+        self.saved_jobs = get_jobs_from_file()
         self._create_widgets()
         self._set_layouts()
         self._set_tabs()
         self._set_name_to_widgets()
         self._initUI()
         self._apply_styles()
+        display_saved_jobs(self.saved_jobs, self.job_list_layout, self.on_delete_clicked)
 
         
     def _create_widgets(self):
@@ -298,6 +300,7 @@ class Job_seeker_app(QMainWindow):
 
         if saving:
             self.refresh_saved_jobs_page()
+            save_jobs_into_file(self.saved_jobs)
             QMessageBox.information(
                 self, 
                 'Saved!', 
@@ -309,6 +312,7 @@ class Job_seeker_app(QMainWindow):
 
         if deleting:
             self.refresh_saved_jobs_page()
+            save_jobs_into_file(self.saved_jobs)
             QMessageBox.information(
                 self, 
                 'Deleted', 
