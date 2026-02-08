@@ -47,14 +47,6 @@ class WorkUaParser(QThread):
                 
                 soup = BeautifulSoup(res.content, 'lxml', from_encoding='utf-8')
 
-                test1 = soup.find_all('div', {'class': 'card'})
-                test2 = soup.find_all('div', class_='card card-hover')
-                test3 = soup.find_all('div', class_='job-link')
-
-                print(f"Selector test:")
-                print(f"  class='card': {len(test1)}")
-                print(f"  class='card card-hover': {len(test2)}")  
-                print(f"  class='job-link': {len(test3)}")
 
                 print(f"HTML length: {len(res.text)}")
                 print(f"Title: {soup.title.string if soup.title else 'No title'}")
