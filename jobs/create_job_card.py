@@ -6,7 +6,7 @@ import webbrowser
 def open_url(url):
     webbrowser.open(url)
 
-def create_job_card(job):
+def create_job_card(job, save_callback):
     card = QFrame()
     card.setObjectName('job-card')
 
@@ -111,6 +111,7 @@ def create_job_card(job):
             background-color: #FFD54F;
         }
     """)
+    save_button.clicked.connect(lambda: save_callback(job))
     
     buttons_layout.addWidget(open_button)
     buttons_layout.addWidget(save_button)
