@@ -31,8 +31,7 @@ class Job_seeker_app(QMainWindow):
         self._initUI()
         self._apply_styles()
         display_saved_jobs(self.saved_jobs, self.job_list_layout, self.on_delete_clicked)
-
-        
+    
     def _create_widgets(self):
         #global thing
         self.tabs = QTabWidget()
@@ -321,8 +320,6 @@ class Job_seeker_app(QMainWindow):
     
     def refresh_saved_jobs_page(self):
         display_saved_jobs(self.saved_jobs, self.job_list_layout, self.on_delete_clicked)
-
-
 
 
 if __name__ == "__main__":
