@@ -100,7 +100,7 @@ def create_saved_job_card(job, remove_callback):
     delete_button.setCursor(Qt.PointingHandCursor)
     delete_button.setStyleSheet("""
         QPushButton#delete-button{
-            background-color: #;
+            background-color: #ff0015;
             color: white;
             border: none;
             border-radius: 6px;
@@ -108,11 +108,11 @@ def create_saved_job_card(job, remove_callback):
             font-size: 14px;
             font-weight: bold;
         }
-        QPushButton#delete-button{
-            background-color: #7a1616
+        QPushButton#delete-button:hover{
+            background-color: #9e0814;
         }
     """)
-    delete_button.clicked.connect(lambda: remove_callback)
+    delete_button.clicked.connect(lambda: remove_callback(job))
     
     buttons_layout.addWidget(open_button)
     buttons_layout.addWidget(delete_button)
