@@ -40,12 +40,12 @@ Docker:
     -Build the image:
         -docker build -t job-seeker 
 
-
-    -Run the container:
-        -docker run -it --rm \
-        -e DISPLAY=$DISPLAY \
-        -v /tmp/.X11-unix:/tmp/.X11-unix \
-        job-seeker
+    -This is a GUI application. Running in Docker requires X11 server setup:
+        -Run the container:
+            -docker run -it --rm \
+            -e DISPLAY=$DISPLAY \
+            -v /tmp/.X11-unix:/tmp/.X11-unix \
+            job-seeker
 
     -Docker compose:
         -docker-compose up
