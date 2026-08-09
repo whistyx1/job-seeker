@@ -179,6 +179,7 @@ class Job_seeker_app(QMainWindow):
         self.save_list_page.setLayout(save_list_page_layout)
     
     def _set_name_to_widgets(self):
+        self.main_page.setObjectName('main_seeker_page')
         self.add_filter_button.setObjectName('add_filter_button')
         self.search_job_button.setObjectName('search_job_button')
 

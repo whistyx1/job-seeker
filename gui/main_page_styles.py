@@ -72,7 +72,12 @@ def style_site_label():
 #style_main_page
 
 def style_main_page():
-    return """QTabWidget::pane{
+    return """QWidget#main_seeker_page{
+        background: qradialgradient(cx: 0.1, cy: 0.05, radius: 1.2, fx: 0.1, fy: 0.05,
+                                    stop: 0 #8fd4f2, stop: 0.42 #4aa9d4,
+                                    stop: 1 #1c6d9f);
+    }
+    QTabWidget::pane{
         border: none;
         background-color: hsl(204, 73%, 56%)
     }
